@@ -1,32 +1,37 @@
-// Toggle visual das checkboxes ao carregar
+/* ----- TOGGLE VISUAL DAS CHECKBOXES ----- */
 document.querySelectorAll('.check-label').forEach(label => {
   const input = label.querySelector('input');
-  label.classList.toggle('selected', input.checked);
+
   label.addEventListener('click', () => {
-    setTimeout(() => label.classList.toggle('selected', input.checked), 10);
+    setTimeout(() => {
+      label.classList.toggle('selected', input.checked);
+    }, 10);
   });
 });
 
-// Retorna os valores das checkboxes marcadas de um container
+/* ----- HELPERS ----- */
+// Retorna os valores das checkboxes marcadas dentro de um container
 function getChecked(containerId) {
   return Array.from(document.querySelectorAll(`#${containerId} input:checked`))
     .map(i => i.value);
 }
 
-// Retorna o valor de um input/select pelo id, sem espaços extras
+// Retorna o valor de um campo pelo id, sem espaços extras
 function val(id) {
   return document.getElementById(id).value.trim();
 }
 
-// Gera e exibe o prompt com base nos campos preenchidos
+/* ----- GERAÇÃO DO PROMPT ----- */
 function gerarPrompt() {
+  // Leitura dos campos de seleção
   const plataformas = getChecked('platforms');
   const niveis      = getChecked('levels');
   const focos       = getChecked('foco');
 
-  const area         = val('area')        || '[sua área de formação]';
+  // Leitura dos campos de texto
+  const area         = val('area')         || '[sua área de formação]';
   const semestre     = val('semestre');
-  const cargo        = val('cargo')       || '[cargo desejado]';
+  const cargo        = val('cargo')        || '[cargo desejado]';
   const skills       = val('skills');
   const softskills   = val('softskills');
   const experiencias = val('experiencias');
@@ -35,10 +40,12 @@ function gerarPrompt() {
   const idioma       = val('idioma');
   const extras       = val('extras');
 
+  // Formatação dos valores compostos
   const plataformaStr = plataformas.length ? plataformas.join(' e ') : 'LinkedIn';
-  const nivelStr      = niveis.length     ? niveis.join(' / ')       : 'Estágio';
-  const focoStr       = focos.length      ? focos.join(', ')         : 'otimização geral';
+  const nivelStr      = niveis.length      ? niveis.join(' / ')      : 'Estágio';
+  const focoStr       = focos.length       ? focos.join(', ')        : 'otimização geral';
 
+  // Montagem do prompt
   let prompt = `Você é um especialista em recrutamento e marketing pessoal, com ampla experiência em otimizar currículos e perfis profissionais para plataformas de emprego como ${plataformaStr}.
 
 Preciso que você melhore e otimize o meu currículo para vagas de ${nivelStr} na área de ${cargo}. Siga as instruções abaixo com precisão:
@@ -92,6 +99,7 @@ Com base nas informações acima, realize as seguintes tarefas:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Ao final, apresente um CHECKLIST com os pontos que precisam de atenção no meu currículo atual e indique o que está forte e o que precisa melhorar.`;
 
+  // Exibe o resultado na tela
   const outputSection = document.getElementById('output-section');
   const outputEl      = document.getElementById('prompt-output');
 
@@ -100,20 +108,27 @@ Ao final, apresente um CHECKLIST com os pontos que precisam de atenção no meu 
   outputSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   // Reseta o botão de cópia
-  document.getElementById('btn-copy').textContent = 'Copiar prompt';
-  document.getElementById('btn-copy').classList.remove('copied');
+  const btnCopy = document.getElementById('btn-copy');
+  btnCopy.textContent = 'Copiar prompt';
+  btnCopy.classList.remove('copied');
 }
 
-// Copia o prompt gerado para a área de transferência
+/* ----- CÓPIA PARA CLIPBOARD ----- */
 function copiarPrompt() {
   const text = document.getElementById('prompt-output').textContent;
+
   navigator.clipboard.writeText(text).then(() => {
     const btn = document.getElementById('btn-copy');
     btn.textContent = '✓ Copiado!';
     btn.classList.add('copied');
+
     setTimeout(() => {
       btn.textContent = 'Copiar prompt';
       btn.classList.remove('copied');
     }, 2500);
   });
 }
+
+/* ----- EVENT LISTENERS (Desacoplamento do HTML) ----- */
+document.getElementById('btn-generate').addEventListener('click', gerarPrompt);
+document.getElementById('btn-copy').addEventListener('click', copiarPrompt);

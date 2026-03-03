@@ -1,17 +1,19 @@
+/* ----- RESET & VARIÁVEIS ----- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #0b0c10;
-  --surface: #131519;
+  --bg:       #0b0c10;
+  --surface:  #131519;
   --surface2: #1a1d23;
-  --border: #252830;
-  --accent: #c8f04e;
-  --accent2: #4ef0c0;
-  --muted: #555a66;
-  --text: #e8eaf0;
-  --text2: #9096a8;
+  --border:   #252830;
+  --accent:   #c8f04e;
+  --accent2:  #4ef0c0;
+  --muted:    #555a66;
+  --text:     #e8eaf0;
+  --text2:    #9096a8;
 }
 
+/* ----- BASE ----- */
 body {
   background: var(--bg);
   color: var(--text);
@@ -21,7 +23,6 @@ body {
   overflow-x: hidden;
 }
 
-/* GRID BACKGROUND */
 body::before {
   content: '';
   position: fixed;
@@ -41,7 +42,7 @@ body::before {
   z-index: 1;
 }
 
-/* HEADER */
+/* ----- HEADER ----- */
 header {
   margin-bottom: 3rem;
   animation: fadeDown 0.6s ease both;
@@ -69,9 +70,7 @@ h1 {
   color: var(--text);
 }
 
-h1 span {
-  color: var(--accent);
-}
+h1 span { color: var(--accent); }
 
 .subtitle {
   margin-top: 0.8rem;
@@ -80,7 +79,7 @@ h1 span {
   line-height: 1.7;
 }
 
-/* FORM SECTIONS */
+/* ----- SEÇÕES DO FORMULÁRIO ----- */
 .section {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -90,7 +89,7 @@ h1 span {
   animation: fadeUp 0.5s ease both;
 }
 
-.section:nth-child(1) { animation-delay: 0.1s; }
+.section:nth-child(1) { animation-delay: 0.10s; }
 .section:nth-child(2) { animation-delay: 0.18s; }
 .section:nth-child(3) { animation-delay: 0.26s; }
 .section:nth-child(4) { animation-delay: 0.34s; }
@@ -116,9 +115,8 @@ h1 span {
   background: var(--border);
 }
 
-.field {
-  margin-bottom: 1rem;
-}
+/* ----- CAMPOS ----- */
+.field { margin-bottom: 1rem; }
 
 label {
   display: block;
@@ -129,10 +127,7 @@ label {
   margin-bottom: 0.4rem;
 }
 
-label span {
-  color: var(--accent);
-  margin-left: 2px;
-}
+label span { color: var(--accent); margin-left: 2px; }
 
 input[type="text"],
 textarea,
@@ -156,7 +151,6 @@ input:focus, textarea:focus, select:focus {
 }
 
 textarea { min-height: 80px; }
-
 select option { background: var(--surface2); }
 
 .grid2 {
@@ -167,7 +161,7 @@ select option { background: var(--surface2); }
 
 @media (max-width: 540px) { .grid2 { grid-template-columns: 1fr; } }
 
-/* CHECKBOXES */
+/* ----- CHECKBOXES CUSTOMIZADAS ----- */
 .checks {
   display: flex;
   flex-wrap: wrap;
@@ -193,14 +187,13 @@ select option { background: var(--surface2); }
 
 .check-label input { display: none; }
 
-.check-label.selected,
-.check-label:has(input:checked) {
+.check-label.selected {
   border-color: var(--accent);
   color: var(--accent);
   background: rgba(200,240,78,0.07);
 }
 
-/* GENERATE BUTTON */
+/* ----- BOTÃO GERAR ----- */
 .btn-generate {
   width: 100%;
   background: var(--accent);
@@ -213,7 +206,7 @@ select option { background: var(--surface2); }
   border-radius: 4px;
   padding: 1rem;
   cursor: pointer;
-  transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+  transition: transform 0.15s, box-shadow 0.15s;
   margin-top: 0.5rem;
 }
 
@@ -224,7 +217,7 @@ select option { background: var(--surface2); }
 
 .btn-generate:active { transform: translateY(0); }
 
-/* OUTPUT */
+/* ----- ÁREA DE OUTPUT ----- */
 #output-section {
   display: none;
   margin-top: 2rem;
@@ -262,9 +255,7 @@ select option { background: var(--surface2); }
   letter-spacing: 0.05em;
 }
 
-.btn-copy:hover {
-  background: rgba(78,240,192,0.1);
-}
+.btn-copy:hover { background: rgba(78,240,192,0.1); }
 
 .btn-copy.copied {
   border-color: var(--accent);
@@ -290,7 +281,15 @@ select option { background: var(--surface2); }
 #prompt-output::-webkit-scrollbar-track { background: transparent; }
 #prompt-output::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
 
-/* ANIMATIONS */
+/* ----- UTILITÁRIOS ----- */
+.tip {
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin-top: 0.35rem;
+  line-height: 1.5;
+}
+
+/* ----- ANIMAÇÕES ----- */
 @keyframes fadeDown {
   from { opacity: 0; transform: translateY(-20px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -299,11 +298,4 @@ select option { background: var(--surface2); }
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
-}
-
-.tip {
-  font-size: 0.7rem;
-  color: var(--muted);
-  margin-top: 0.35rem;
-  line-height: 1.5;
 }

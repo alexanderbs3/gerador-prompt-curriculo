@@ -3,149 +3,346 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gerador de Prompt — Currículo Estágio/Júnior</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <title>Gerador prompt currículo - HTML</title>
+  <style>
+    /* Definindo variáveis globais para as cores e padrões */
+    :root {
+      --bg-color: #000; /* Preto puro para o fundo para a grade */
+      --card-bg: #111111; /* Cinza muito escuro para os cartões/seções */
+      --input-bg: #1a1a1a; /* Cinza escuro para campos de entrada */
+      --neon-primary: #c3ff00; /* Verde neon para o título principal e botões */
+      --neon-secondary: #00ffcc; /* Ciano/Verde neon para labels e títulos de seção */
+      --text-primary: #fff; /* Branco para o texto principal */
+      --text-secondary: #a0a0a0; /* Cinza para texto secundário e legendas */
+      --border-color: #2a2a2a; /* Cinza para bordas de cartões e inputs */
+      --grid-color: rgba(255, 255, 255, 0.05); /* Cinza muito sutil para a grade */
+    }
+
+    body {
+      background-color: var(--bg-color);
+      /* Padrão de grade tech no fundo */
+      background-image: 
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+      background-size: 20px 20px;
+      color: var(--text-primary);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Uma fonte sans-serif moderna e limpa */
+      margin: 0;
+      padding: 40px;
+      box-sizing: border-box;
+    }
+
+    /* Estilo para o cabeçalho principal */
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    h1 {
+      color: var(--neon-primary);
+      font-weight: 900;
+      text-transform: uppercase;
+      font-size: 3rem;
+      margin: 0 0 10px 0;
+    }
+
+    .header p {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Estilo para os cartões/seções */
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 30px;
+      margin-bottom: 20px;
+    }
+
+    /* Títulos de seção neon */
+    .card-title {
+      color: var(--neon-secondary);
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+    }
+
+    /* Agrupamento de formulários */
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    /* Labels neon claros */
+    label {
+      display: block;
+      color: var(--neon-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    /* Estilo para o asterisco de campo obrigatório */
+    label span.required {
+      color: var(--text-secondary);
+      margin-left: 2px;
+    }
+
+    /* Estilo para campos de texto, textareas e selects */
+    input[type="text"], textarea, select {
+      width: 100%;
+      background-color: var(--input-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 12px;
+      border-radius: 4px;
+      box-sizing: border-box;
+      transition: border-color 0.2s;
+    }
+
+    /* Estilo para o texto do espaço reservado */
+    input[type="text"]::placeholder, textarea::placeholder {
+      color: #555;
+    }
+
+    /* Estado de foco para inputs */
+    input[type="text"]:focus, textarea:focus, select:focus {
+      border-color: var(--neon-primary);
+      outline: none;
+    }
+
+    /* Estilo específico para textarea */
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    /* Estilo para selects */
+    select {
+      cursor: pointer;
+    }
+
+    /* Estilo para as checklists/botões de opção */
+    .checklist-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    /* Esconder o input nativo */
+    .checklist-group input[type="checkbox"],
+    .checklist-group input[type="radio"] {
+      display: none;
+    }
+
+    /* Estilizar o label como um botão */
+    .checklist-group label {
+      display: inline-block;
+      margin-bottom: 0;
+      border: 1px solid var(--border-color);
+      background-color: var(--input-bg);
+      color: var(--text-secondary);
+      padding: 10px 18px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    /* Label quando o input está marcado */
+    .checklist-group input[type="checkbox"]:checked + label,
+    .checklist-group input[type="radio"]:checked + label {
+      border-color: var(--neon-secondary);
+      color: var(--neon-secondary);
+      background-color: rgba(0, 255, 204, 0.05); /* Fundo muito transparente neon */
+    }
+
+    /* Estilo para botões de ação */
+    .btn-container {
+      margin-top: 30px;
+      display: flex;
+      gap: 15px;
+    }
+
+    .btn {
+      display: inline-block;
+      border: none;
+      border-radius: 4px;
+      padding: 12px 24px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      text-align: center;
+    }
+
+    /* Botão principal neon */
+    .btn-primary {
+      background-color: var(--neon-primary);
+      color: #000;
+    }
+
+    .btn-primary:hover {
+      background-color: #d8ff4f; /* Um pouco mais claro no hover */
+    }
+
+    /* Botão secundário escuro */
+    .btn-secondary {
+      background-color: #222;
+      color: var(--text-secondary);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-secondary:hover {
+      background-color: #333;
+    }
+
+    /* Estilo para a dica cinza sutil */
+    .tip {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      margin-top: 8px;
+    }
+
+    /* Área de saída do prompt */
+    #output-section {
+      margin-top: 30px;
+    }
+  </style>
 </head>
 <body>
-<div class="container">
+  <div class="container">
+    <div class="header">
+      <div class="tip">✦ Ferramenta Gratuita</div>
+      <h1>Prompt para Currículo Perfeito</h1>
+      <p>Gere um prompt completo para otimizar seu currículo de estágio ou júnior para LinkedIn e Indeed com IA. Preencha os campos e copie o prompt.</p>
+    </div>
 
-  <header>
-    <div class="badge">✦ Ferramenta Gratuita</div>
-    <h1>Prompt para<br><span>Currículo</span> Perfeito</h1>
-    <p class="subtitle">Gere um prompt completo para otimizar seu currículo de estágio ou júnior<br>para LinkedIn e Indeed com IA. Preencha os campos e copie o prompt.</p>
-  </header>
-
-  <!-- 01 — PLATAFORMAS -->
-  <div class="section" style="animation-delay:0.05s">
-    <div class="section-title">01 — Plataforma de destino</div>
-
-    <div class="field">
-      <label>Para qual plataforma você quer otimizar? <span>*</span></label>
-      <div class="checks" id="platforms">
-        <label class="check-label"><input type="checkbox" value="LinkedIn" checked> LinkedIn</label>
-        <label class="check-label"><input type="checkbox" value="Indeed"> Indeed</label>
-        <label class="check-label"><input type="checkbox" value="Catho"> Catho</label>
-        <label class="check-label"><input type="checkbox" value="Gupy"> Gupy</label>
-        <label class="check-label"><input type="checkbox" value="Infojobs"> Infojobs</label>
+    <div class="card">
+      <div class="card-title">01 — Plataforma de destino</div>
+      <div class="form-group">
+        <label>Para qual plataforma você quer otimizar?<span class="required">*</span></label>
+        <div class="checklist-group">
+          <input type="checkbox" id="platform-linkedin" name="platform" value="linkedin" checked>
+          <label for="platform-linkedin">LinkedIn</label>
+          <input type="checkbox" id="platform-indeed" name="platform" value="indeed">
+          <label for="platform-indeed">Indeed</label>
+          <input type="checkbox" id="platform-catho" name="platform" value="catho">
+          <label for="platform-catho">Catho</label>
+          <input type="checkbox" id="platform-gupy" name="platform" value="gupy">
+          <label for="platform-gupy">Gupy</label>
+          <input type="checkbox" id="platform-infojobs" name="platform" value="infojobs">
+          <label for="platform-infojobs">Infojobs</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Nível da vaga<span class="required">*</span></label>
+        <div class="checklist-group">
+          <input type="radio" id="level-estagio" name="level" value="estagio" checked>
+          <label for="level-estagio">Estágio</label>
+          <input type="radio" id="level-trainee" name="level" value="trainee">
+          <label for="level-trainee">Trainee</label>
+          <input type="radio" id="level-junior" name="level" value="junior">
+          <label for="level-junior">Júnior</label>
+          <input type="radio" id="level-aprendiz" name="level" value="aprendiz">
+          <label for="level-aprendiz">Aprendiz</label>
+        </div>
       </div>
     </div>
 
-    <div class="field">
-      <label>Nível da vaga <span>*</span></label>
-      <div class="checks" id="levels">
-        <label class="check-label"><input type="checkbox" value="Estágio" checked> Estágio</label>
-        <label class="check-label"><input type="checkbox" value="Trainee"> Trainee</label>
-        <label class="check-label"><input type="checkbox" value="Júnior"> Júnior</label>
-        <label class="check-label"><input type="checkbox" value="Aprendiz"> Aprendiz</label>
+    <div class="card">
+      <div class="card-title">02 — Sobre você</div>
+      <div class="form-group">
+        <label>Área de formação<span class="required">*</span></label>
+        <input type="text" id="formation-area" placeholder="Ex: Ciência da Computação, Administração...">
       </div>
-    </div>
-  </div>
-
-  <!-- 02 — SOBRE VOCÊ -->
-  <div class="section">
-    <div class="section-title">02 — Sobre você</div>
-
-    <div class="grid2">
-      <div class="field">
-        <label>Área de formação <span>*</span></label>
-        <input type="text" id="area" placeholder="Ex: Ciência da Computação, Administração…">
-      </div>
-      <div class="field">
+      <div class="form-group">
         <label>Semestre / status</label>
-        <input type="text" id="semestre" placeholder="Ex: 4º semestre, Recém-formado…">
+        <input type="text" id="semester-status" placeholder="Ex: 4º semestre, Recém-formado...">
+      </div>
+      <div class="form-group">
+        <label>Cargo / vaga desejada<span class="required">*</span></label>
+        <input type="text" id="desired-role" placeholder="Ex: Desenvolvedor Front-end Júnior, Analista de Marketing...">
+      </div>
+      <div class="form-group">
+        <label>Habilidades técnicas (hard skills)</label>
+        <input type="text" id="hard-skills" placeholder="Ex: Python, Excel, Figma, SQL, React...">
+      </div>
+      <div class="form-group">
+        <label>Soft skills principais</label>
+        <input type="text" id="soft-skills" placeholder="Ex: Trabalho em equipe, Comunicação, Proatividade...">
       </div>
     </div>
 
-    <div class="field">
-      <label>Cargo / vaga desejada <span>*</span></label>
-      <input type="text" id="cargo" placeholder="Ex: Desenvolvedor Front-end Júnior, Analista de Marketing…">
-    </div>
-
-    <div class="field">
-      <label>Habilidades técnicas (hard skills)</label>
-      <input type="text" id="skills" placeholder="Ex: Python, Excel, Figma, SQL, React…">
-    </div>
-
-    <div class="field">
-      <label>Soft skills principais</label>
-      <input type="text" id="softskills" placeholder="Ex: Trabalho em equipe, Comunicação, Proatividade…">
-    </div>
-  </div>
-
-  <!-- 03 — EXPERIÊNCIAS -->
-  <div class="section">
-    <div class="section-title">03 — Experiências & conquistas</div>
-
-    <div class="field">
-      <label>Experiências anteriores (ou projetos / trabalhos voluntários)</label>
-      <textarea id="experiencias" placeholder="Ex: Projeto de TCC em análise de dados com Python&#10;Freelance de design gráfico por 6 meses&#10;Monitor de disciplina na faculdade…"></textarea>
-      <p class="tip">💡 Se não tem experiência formal, cite projetos pessoais, extracurriculares ou trabalho voluntário.</p>
-    </div>
-
-    <div class="field">
-      <label>Alguma conquista mensurável?</label>
-      <input type="text" id="conquistas" placeholder="Ex: Aumentei engajamento em 30%, economizei 5h/semana com automação…">
-    </div>
-  </div>
-
-  <!-- 04 — PERSONALIZAÇÃO -->
-  <div class="section">
-    <div class="section-title">04 — Personalização do prompt</div>
-
-    <div class="field">
-      <label>Tom do texto</label>
-      <select id="tom">
-        <option value="profissional e objetivo">Profissional e objetivo</option>
-        <option value="moderno e dinâmico">Moderno e dinâmico</option>
-        <option value="formal e acadêmico">Formal e acadêmico</option>
-        <option value="criativo e inovador">Criativo e inovador</option>
-        <option value="direto ao ponto">Direto ao ponto</option>
-      </select>
-    </div>
-
-    <div class="field">
-      <label>Foco principal do currículo</label>
-      <div class="checks" id="foco">
-        <label class="check-label"><input type="checkbox" value="palavras-chave para ATS" checked> Palavras-chave ATS</label>
-        <label class="check-label"><input type="checkbox" value="descrição de conquistas com números"> Conquistas com números</label>
-        <label class="check-label"><input type="checkbox" value="resumo profissional impactante"> Resumo profissional</label>
-        <label class="check-label"><input type="checkbox" value="seção de habilidades otimizada"> Seção de habilidades</label>
-        <label class="check-label"><input type="checkbox" value="headline do LinkedIn"> Headline LinkedIn</label>
-        <label class="check-label"><input type="checkbox" value="seção 'Sobre' do LinkedIn"> Sobre (LinkedIn)</label>
+    <div class="card">
+      <div class="card-title">03 — Experiências & conquistas</div>
+      <div class="form-group">
+        <label>Experiências anteriores (ou projetos / trabalhos voluntários)</label>
+        <textarea id="previous-experience" placeholder="Ex: Projeto de TCC em análise de dados... Freelance de design gráfico... Monitor de disciplina..."></textarea>
+        <div class="tip">💡 Se não tem experiência formal, cite projetos pessoais, extracurriculares ou trabalho voluntário.</div>
+      </div>
+      <div class="form-group">
+        <label>Alguma conquista mensurável?</label>
+        <input type="text" id="achievements" placeholder="Ex: Aumentei engajamento em 30%, economizei 5h/semana...">
       </div>
     </div>
 
-    <div class="field">
-      <label>Idioma do currículo</label>
-      <select id="idioma">
-        <option value="português brasileiro">Português Brasileiro</option>
-        <option value="inglês">Inglês</option>
-        <option value="espanhol">Espanhol</option>
-        <option value="português + inglês (bilíngue)">Bilíngue (PT + EN)</option>
-      </select>
+    <div class="card">
+      <div class="card-title">04 — Personalização do prompt</div>
+      <div class="form-group">
+        <label>Tom do texto</label>
+        <select id="text-tone">
+          <option value="profissional" selected>Profissional e objetivo</option>
+          <option value="moderno">Moderno e dinâmico</option>
+          <option value="formal">Formal</option>
+          <option value="criativo">Criativo</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Foco principal do currículo</label>
+        <div class="checklist-group">
+          <input type="checkbox" id="focus-ats" name="focus" value="ats" checked>
+          <label for="focus-ats">Palavras-chave ATS</label>
+          <input type="checkbox" id="focus-numbers" name="focus" value="numbers">
+          <label for="focus-numbers">Conquistas com números</label>
+          <input type="checkbox" id="focus-summary" name="focus" value="summary">
+          <label for="focus-summary">Resumo profissional</label>
+          <input type="checkbox" id="focus-skills" name="focus" value="skills">
+          <label for="focus-skills">Seção de habilidades</label>
+          <input type="checkbox" id="focus-headline" name="focus" value="headline">
+          <label for="focus-headline">Headline LinkedIn</label>
+          <input type="checkbox" id="focus-about" name="focus" value="about">
+          <label for="focus-about">Sobre (LinkedIn)</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Idioma do currículo</label>
+        <select id="language">
+          <option value="portugues" selected>Português Brasileiro</option>
+          <option value="ingles">Inglês</option>
+          <option value="espanhol">Espanhol</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Informações adicionais (opcional)</label>
+        <textarea id="additional-info" placeholder="Ex: Gostaria de destacar minha disponibilidade imediata. Sou de São Paulo."></textarea>
+      </div>
     </div>
 
-    <div class="field">
-      <label>Informações adicionais (opcional)</label>
-      <textarea id="extras" placeholder="Ex: Gostaria de destacar minha disponibilidade imediata. Sou de São Paulo. Busco oportunidades remotas…" style="min-height:60px"></textarea>
+    <div class="btn-container">
+      <button class="btn btn-primary" id="generate-btn">⚡ Gerar Prompt Agora</button>
+      <button class="btn btn-secondary" id="copy-btn">Copiar prompt</button>
     </div>
+
+    <div id="output-section" style="display: none;">
+      <div class="card">
+        <div class="card-title">✦ Seu Prompt Gerado</div>
+        <textarea id="output-text" readonly></textarea>
+        <div class="tip">👇 Cole este prompt no ChatGPT, Claude ou Gemini. Quanto mais detalhes você inserir acima, melhor o resultado.</div>
+      </div>
+    </div>
+
   </div>
-
-  <button class="btn-generate" onclick="gerarPrompt()">⚡ Gerar Prompt Agora</button>
-
-  <!-- OUTPUT -->
-  <div id="output-section">
-    <div class="output-header">
-      <span class="output-label">✦ Seu Prompt Gerado</span>
-      <button class="btn-copy" id="btn-copy" onclick="copiarPrompt()">Copiar prompt</button>
-    </div>
-    <div id="prompt-output"></div>
-    <p class="tip" style="margin-top:0.8rem">👆 Cole este prompt no ChatGPT, Claude ou Gemini. Quanto mais detalhes você inserir acima, melhor o resultado.</p>
-  </div>
-
-</div>
-
-<script src="script.js"></script>
 </body>
 </html>
